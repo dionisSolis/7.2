@@ -46,7 +46,7 @@ namespace qwerty
 
             isInt = int.TryParse(Console.ReadLine(), out digit);
 
-            if (!isInt)
+            while (!isInt)
             {
                 Console.Write("\nВведите корректное число. \nВвод...");
                 isInt = int.TryParse(Console.ReadLine(), out digit);
