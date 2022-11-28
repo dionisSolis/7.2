@@ -1,0 +1,76 @@
+using System;
+namespace qwerty
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool isPlay = true;
+            int movementXLocation, movementYLocation;
+            Movement movement = new Movement(0, 0, 0, 0);
+            string userInput;
+
+            while (isPlay)
+            {
+                Console.Clear();
+                movement.ShowInfo();
+                Console.Write("\nВведите команду\n1)Изменить расположение\n2)Выход\nВвод...");
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        Console.WriteLine("\nВведите изменение по х");
+                        movementXLocation = EnterInt();
+                        Console.WriteLine("Введите изменение по y");
+                        movementYLocation = EnterInt();
+                        movement = new Movement(movement.XLocation, movement.YLocation, movementXLocation, movementYLocation);
+                        break;
+                    case "2":
+                        isPlay = false;
+                        break;
+                    default:
+                        Console.WriteLine("\nНеправильно введенная команда");
+                        break;
+                }
+
+                Console.WriteLine("\nНажмите любую кнопку для обновления");
+                Console.ReadKey();
+            }
+        }
+
+        static int EnterInt()
+        {
+            int digit;
+            bool isInt;
+
+            isInt = int.TryParse(Console.ReadLine(), out digit);
+
+            if (!isInt)
+            {
+                Console.Write("\nВведите корректное число. \nВвод...");
+                isInt = int.TryParse(Console.ReadLine(), out digit);
+            }
+
+            return digit;
+        }
+    }
+
+    class Movement
+    {
+        public int XLocation { get; private set; }
+        public int YLocation { get; private set; }
+
+        public Movement(int xLocation, int yLocation, int movementXLocation, int movementYLocation)
+        {
+            XLocation = xLocation + movementXLocation;
+            YLocation = yLocation + movementYLocation;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine("Положение по x - " + XLocation);
+            Console.WriteLine("Положение по y - " + YLocation);
+        }
+    }
+}
