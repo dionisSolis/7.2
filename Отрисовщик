@@ -5,72 +5,81 @@ namespace qwerty
     {
         static void Main(string[] args)
         {
-            bool isPlay = true;
-            int movementXLocation, movementYLocation;
-            Movement movement = new Movement(0, 0, 0, 0);
-            string userInput;
+            float locationX, locationY;
+            float paintLength;
+            
 
-            while (isPlay)
-            {
-                Console.Clear();
-                movement.ShowInfo();
-                Console.Write("\nВведите команду\n1)Изменить расположение\n2)Выход\nВвод...");
-                userInput = Console.ReadLine();
+            Console.WriteLine("Введите Ваши координаты");
+            locationX = EnterFloat("X");
+            locationY = EnterFloat("Y");
 
-                switch (userInput)
-                {
-                    case "1":
-                        Console.WriteLine("\nВведите изменение по х");
-                        movementXLocation = EnterInt();
-                        Console.WriteLine("Введите изменение по y");
-                        movementYLocation = EnterInt();
-                        movement = new Movement(movement.XLocation, movement.YLocation, movementXLocation, movementYLocation);
-                        break;
-                    case "2":
-                        isPlay = false;
-                        break;
-                    default:
-                        Console.WriteLine("\nНеправильно введенная команда");
-                        break;
-                }
+            Player player = new Player(locationX, locationY);
 
-                Console.WriteLine("\nНажмите любую кнопку для обновления");
-                Console.ReadKey();
-            }
+            player.ShowInfo();
+            Console.WriteLine("\nВведите длину стороны квадрата для отрисовки");
+            paintLength = EnterFloat("Длина стороны квадрата");
+
+            Painter painter = new Painter(locationX, locationY, paintLength);
+            
+            painter.Paint();
         }
 
-        static int EnterInt()
+        static float EnterFloat(string digitName)
         {
-            int digit;
-            bool isInt;
+            bool isInt = false;
+            float digit = 0;
 
-            isInt = int.TryParse(Console.ReadLine(), out digit);
+            Console.WriteLine(digitName + ":");
 
             while (!isInt)
             {
-                Console.Write("\nВведите корректное число. \nВвод...");
-                isInt = int.TryParse(Console.ReadLine(), out digit);
+                Console.WriteLine("Введите корректное число");
+                isInt = float.TryParse(Console.ReadLine(), out digit);
             }
-
             return digit;
         }
     }
 
-    class Movement
+    class Painter
     {
-        public int XLocation { get; private set; }
-        public int YLocation { get; private set; }
+        public float LocationX { get; private set; }
+        public float LocationY { get; private set; }
+        public float Length { get; private set; }
 
-        public Movement(int xLocation, int yLocation, int movementXLocation, int movementYLocation)
+        public Painter(float locationX, float locationY, float length)
         {
-            XLocation = xLocation + movementXLocation;
-            YLocation = yLocation + movementYLocation;
+            LocationX = locationX;
+            LocationY = locationY;
+            Length = length;
+        }
+        
+        public void Paint()
+        {
+            float firstPointX = LocationX - Length / 2;
+            float firstPointY = LocationY + Length / 2;
+
+            Console.WriteLine($"\nВы отрисованы в квадрате с следущими координатами угловых точек" +
+                $"\n1){firstPointX}, {firstPointY}" +
+                $"\n2){firstPointX + Length}, {firstPointY}" +
+                $"\n3){firstPointX + Length}, {firstPointY - Length}" +
+                $"\n4){firstPointX}, {firstPointY - Length}");
+        }
+    }
+
+    class Player
+    {
+        public float LocationX { get; private set; }
+        public float LocationY { get; private set; }
+
+        public Player(float locationX, float locationY)
+        {
+            LocationX = locationX;
+            LocationY = locationY;
         }
 
         public void ShowInfo()
         {
-            Console.WriteLine("Положение по x - " + XLocation);
-            Console.WriteLine("Положение по y - " + YLocation);
+            Console.WriteLine($"\nКоординаты ({LocationX},{LocationY})");
         }
     }
 }
