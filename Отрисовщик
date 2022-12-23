@@ -5,23 +5,49 @@ namespace qwerty
     {
         static void Main(string[] args)
         {
-            float locationX, locationY;
-            float paintLength;
-            
+            float locationX = 0, locationY = 0;
+            float paintLength = 2;
+            bool isPlay = true;
+            string userInput;
 
-            Console.WriteLine("Введите Ваши координаты");
-            locationX = EnterFloat("X");
-            locationY = EnterFloat("Y");
+            while (isPlay)
+            {
+                Painter painter = new Painter(locationX, locationY, paintLength);
+                Player player = new Player(locationX, locationY);
+                Console.WriteLine($"Длина стороны квадрата - {painter.Length}");
+                player.ShowInfo();
+                
+                Console.Write("\nВведите номер команды\n1)Сменить сторону квадратa\n2)Ввести новые координаты\n3)Отрисовать\n4)Выйти\nВвод...");
+                userInput = Console.ReadLine();
 
-            Player player = new Player(locationX, locationY);
+                switch (userInput)
+                {
+                    case "1":
+                        Console.WriteLine("\nВведите длину стороны квадрата для отрисовки");
+                        paintLength = EnterFloat("Длина стороны квадрата");
+                        break;
+                    case "2":
+                        Console.WriteLine("\nВведите Ваши координаты");
+                        locationX = EnterFloat("X");
+                        locationY = EnterFloat("Y");
+                        break;
+                    case "3":
+                        painter.Paint();
+                        break;
+                    case "4":
+                        isPlay = false;
+                        break;
+                    default:
+                        Console.WriteLine("Неверно веденная команда,");
+                        break;
+                }
 
-            player.ShowInfo();
-            Console.WriteLine("\nВведите длину стороны квадрата для отрисовки");
-            paintLength = EnterFloat("Длина стороны квадрата");
+                Console.WriteLine("Нажмите любую кнопку для обновления");
+                Console.ReadKey();
+                Console.Clear();
+            }
 
-            Painter painter = new Painter(locationX, locationY, paintLength);
-            
-            painter.Paint();
+            Console.WriteLine("До встречи!");
         }
 
         static float EnterFloat(string digitName)
@@ -29,11 +55,11 @@ namespace qwerty
             bool isInt = false;
             float digit = 0;
 
-            Console.WriteLine(digitName + ":");
+            Console.Write(digitName + ":");
 
             while (!isInt)
             {
-                Console.WriteLine("Введите корректное число");
+                Console.WriteLine("(Введите корректное число)");
                 isInt = float.TryParse(Console.ReadLine(), out digit);
             }
             return digit;
@@ -52,11 +78,11 @@ namespace qwerty
             LocationY = locationY;
             Length = length;
         }
-        
         public void Paint()
         {
             float firstPointX = LocationX - Length / 2;
             float firstPointY = LocationY + Length / 2;
+
             Console.WriteLine($"\nВы отрисованы в квадрате с следущими координатами угловых точек" +
                 $"\n1){firstPointX}, {firstPointY}" +
                 $"\n2){firstPointX + Length}, {firstPointY}" +
