@@ -57,7 +57,6 @@ namespace qwerty
         {
             float firstPointX = LocationX - Length / 2;
             float firstPointY = LocationY + Length / 2;
-
             Console.WriteLine($"\nВы отрисованы в квадрате с следущими координатами угловых точек" +
                 $"\n1){firstPointX}, {firstPointY}" +
                 $"\n2){firstPointX + Length}, {firstPointY}" +
