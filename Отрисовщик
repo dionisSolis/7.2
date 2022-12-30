@@ -5,18 +5,15 @@ namespace qwerty
     {
         static void Main(string[] args)
         {
-            float locationX = 0, locationY = 0;
-            float paintLength = 2;
             bool isPlay = true;
             string userInput;
+            Player player = new Player(0, 0);
+            Painter painter = new Painter(0, 0, 2);
 
             while (isPlay)
             {
-                Painter painter = new Painter(locationX, locationY, paintLength);
-                Player player = new Player(locationX, locationY);
                 Console.WriteLine($"Длина стороны квадрата - {painter.Length}");
                 player.ShowInfo();
-                
                 Console.Write("\nВведите номер команды\n1)Сменить сторону квадратa\n2)Ввести новые координаты\n3)Отрисовать\n4)Выйти\nВвод...");
                 userInput = Console.ReadLine();
 
@@ -24,12 +21,14 @@ namespace qwerty
                 {
                     case "1":
                         Console.WriteLine("\nВведите длину стороны квадрата для отрисовки");
-                        paintLength = EnterFloat("Длина стороны квадрата");
+                        painter.Length = EnterFloat("Длина стороны квадрата");
                         break;
                     case "2":
                         Console.WriteLine("\nВведите Ваши координаты");
-                        locationX = EnterFloat("X");
-                        locationY = EnterFloat("Y");
+                        player.LocationX = EnterFloat("X");
+                        player.LocationY = EnterFloat("Y");
+                        painter.LocationX = player.LocationX;
+                        painter.LocationY = player.LocationY;
                         break;
                     case "3":
                         painter.Paint();
@@ -68,9 +67,9 @@ namespace qwerty
 
     class Painter
     {
-        public float LocationX { get; private set; }
-        public float LocationY { get; private set; }
-        public float Length { get; private set; }
+        public float LocationX {private get; set; }
+        public float LocationY {private get; set; }
+        public float Length { get; set; }
 
         public Painter(float locationX, float locationY, float length)
         {
@@ -78,6 +77,7 @@ namespace qwerty
             LocationY = locationY;
             Length = length;
         }
+        
         public void Paint()
         {
             float firstPointX = LocationX - Length / 2;
@@ -93,8 +93,8 @@ namespace qwerty
 
     class Player
     {
-        public float LocationX { get; private set; }
-        public float LocationY { get; private set; }
+        public float LocationX { get; set; }
+        public float LocationY { get; set; }
 
         public Player(float locationX, float locationY)
         {
