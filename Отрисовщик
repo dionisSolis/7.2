@@ -8,7 +8,7 @@ namespace qwerty
             bool isPlay = true;
             string userInput;
             Player player = new Player(0, 0);
-            Painter painter = new Painter(0, 0, 2);
+            Painter painter = new Painter(2);
 
             while (isPlay)
             {
@@ -27,11 +27,9 @@ namespace qwerty
                         Console.WriteLine("\nВведите Ваши координаты");
                         player.LocationX = EnterFloat("X");
                         player.LocationY = EnterFloat("Y");
-                        painter.LocationX = player.LocationX;
-                        painter.LocationY = player.LocationY;
                         break;
                     case "3":
-                        painter.Paint();
+                        painter.Paint(player.LocationX, player.LocationY);
                         break;
                     case "4":
                         isPlay = false;
@@ -67,21 +65,17 @@ namespace qwerty
 
     class Painter
     {
-        public float LocationX {private get; set; }
-        public float LocationY {private get; set; }
         public float Length { get; set; }
 
-        public Painter(float locationX, float locationY, float length)
+        public Painter(float length)
         {
-            LocationX = locationX;
-            LocationY = locationY;
             Length = length;
         }
         
-        public void Paint()
+        public void Paint(float locationX, float locationY)
         {
-            float firstPointX = LocationX - Length / 2;
-            float firstPointY = LocationY + Length / 2;
+            float firstPointX = locationX - Length / 2;
+            float firstPointY = locationY + Length / 2;
 
             Console.WriteLine($"\nВы отрисованы в квадрате с следущими координатами угловых точек" +
                 $"\n1){firstPointX}, {firstPointY}" +
